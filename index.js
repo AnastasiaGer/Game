@@ -1,6 +1,9 @@
 const btn = document.querySelector('.btn')
 const game = document.querySelector('.game')
 const $time = document.querySelector('#time')
+const $result = document.querySelector('#result')
+const timeHeader = document.querySelector('#time-header')
+const resultHeader = document.querySelector('#result-header')
 
 let score = 0
 let isGameStarted = false
@@ -10,6 +13,10 @@ btn.addEventListener('click', start)
 game.addEventListener('click', handelBoxClick)
 
 function start() {
+  score = 0
+  setGameTime()
+  timeHeader.classList.remove('hide')
+  resultHeader.classList.add('hide')
   isGameStarted = true
   btn.classList.add('hide')
   game.style.backgroundColor = "white"
@@ -27,8 +34,23 @@ function start() {
   renderBox()
 }
 
+function setGameScore() {
+  $result.textContent = score.toString()
+}
+
+function setGameTime() {
+  let time = 5
+$time.textContent = time.toFixed(1)
+}
+
 function endGame() {
   isGameStarted = false
+  setGameScore()
+  btn.classList.remove('hide')
+  game.innerHTML = ''
+  game.style.backgroundColor = "#ccc"
+  timeHeader.classList.add('hide')
+  resultHeader.classList.remove('hide')
 }
 
 function handelBoxClick(event) {
