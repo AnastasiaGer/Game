@@ -4,6 +4,8 @@ const $time = document.querySelector('#time')
 const $result = document.querySelector('#result')
 const timeHeader = document.querySelector('#time-header')
 const resultHeader = document.querySelector('#result-header')
+const gameTime = document.querySelector('#game-time')
+let colors = ["#a98e34", "#7368a7", "#d9e57d", "#b31350", "#2bcc17", "#2c03f1", "#9f46de"]
 
 let score = 0
 let isGameStarted = false
@@ -11,12 +13,13 @@ let isGameStarted = false
 
 btn.addEventListener('click', start)
 game.addEventListener('click', handelBoxClick)
+gameTime.addEventListener('input', setGameTime)
 
 function start() {
   score = 0
   setGameTime()
-  timeHeader.classList.remove('hide')
-  resultHeader.classList.add('hide')
+  gameTime.setAttribute('disabled', 'true')
+
   isGameStarted = true
   btn.classList.add('hide')
   game.style.backgroundColor = "white"
@@ -39,13 +42,16 @@ function setGameScore() {
 }
 
 function setGameTime() {
-  let time = 5
-$time.textContent = time.toFixed(1)
+  let time = +gameTime.value
+  $time.textContent = time.toFixed(1)
+  timeHeader.classList.remove('hide')
+  resultHeader.classList.add('hide')
 }
 
 function endGame() {
   isGameStarted = false
   setGameScore()
+  gameTime.removeAttribute('disabled')
   btn.classList.remove('hide')
   game.innerHTML = ''
   game.style.backgroundColor = "#ccc"
@@ -71,8 +77,9 @@ function renderBox() {
   let gameSize = game.getBoundingClientRect()
   let maxTop = gameSize.height - boxSize
   let maxLeft = gameSize.width - boxSize
+  let randomColorIndex = getRandom(0, colors.length)
 
-  box.style.backgroundColor = "black"
+  box.style.backgroundColor = colors[randomColorIndex]
   box.style.position = "absolute"
 
   box.style.width = boxSize + 'px'
